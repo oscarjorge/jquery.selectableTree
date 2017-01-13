@@ -1,5 +1,6 @@
 # jquery.selectableTree
 
+
 (function ($) {
 
     // here we go!
@@ -49,16 +50,22 @@
                     $tree.append("<a class='parent list-group-item' data-id='" + String(parent.Item.Value) + "'><i class='fa fa-angle-up collapsed'/> " + parent.Item.Text + " <span class='badge'></span><i class='fa pull-right check' aria-hidden='true'/></a>");
 
                     var $parentDOM = $tree.children().last();
-                    $parentDOM.find('.check').last().on('click', function () {
+                    $parentDOM.find('.check').last().on('click', function (e) {
                         selectAll($(this), $tree);
+                        if (options.onCheck !== undefined) 
+                            options.onCheck(e, getObjectItem($(this)));
                     });
                     $parentDOM.find('.collapsed').last().on('click', function () {
                         collapse($(this));
                     });
+                    $parentDOM.on('click', function (e) {
+                        if(!$(e.target).hasClass('check'))
+                            collapse($(this).find('.collapsed').last());
+                    });
                     var $children = $(parent.Children);
                     var selectedChildren = 0;
                     $children.each(function (i, child) {
-                        $tree.append("<a class='child list-group-item' data-dirty=false data-parent='" + String(parent.Item.Value) + "' data-id='" + String(parent.Item.Value) + "-" + child.Value + "'><span>" + child.Text + "</span><i class='fa pull-right check' aria-hidden='true'></a>");
+                        $tree.append("<a class='child list-group-item' data-dirty=false data-parent='" + String(parent.Item.Value) + "' data-id='" + String(parent.Item.Value) + "-" + child.Value + "'><span class='texto'>" + child.Text + "</span><i class='fa pull-right check' aria-hidden='true'></a>");
                         var $childDOM = $tree.children().last();
                         if (child.Selected) {
                             $childDOM.find('.check').last().addClass('fa-circle');
@@ -68,8 +75,10 @@
                             $childDOM.find('.check').last().addClass('fa-circle-o');
 
                         $childDOM.data('originalSelected', child.Selected);
-                        $childDOM.find('.check').last().on('click', function () {
+                        $childDOM.find('.check').last().on('click', function (e) {
                             select($(this), $tree);
+                            if (options.onCheck !== undefined)
+                                options.onCheck(e, getObjectItem($(this)));
                         });
                     });
 
@@ -119,7 +128,7 @@
                 $tree.find('.parent').each(function (i, v) {
                     var objeto = new Object();
                     objeto.Item = new Object();
-                    objeto.Item.Text = $(this).find('strong').html();
+                    objeto.Item.Text = $(this).find('.texto').html();
                     objeto.Item.Value = $(this).data('id');
                     var hijos = [];
                     $(getChildren($(v).find('.check'), $tree)).each(function (ind, va) {
@@ -145,6 +154,37 @@
             // private methods
             // these methods can be called only from inside the plugin like:
             // methodName(arg1, arg2, ... argn)
+
+            var getObjectItem = function (item) {
+                if (item.parent().hasClass('parent')) {
+                    var objeto = new Object();
+                    objeto.Item = new Object();
+                    objeto.Item.Text = item.parent().find('.texto').html();
+                    objeto.Item.Value = item.parent().data('id');
+                    var hijos = [];
+                    $(getChildren($(item.parent()).find('.check'), $tree)).each(function (ind, va) {
+                        var it = new Object();
+                        it.Selected = isSelect($(this).find('.check'));
+                        it.Text = $(this).find('span').first().html();
+                        it.Value = $(this).data('id').split('-')[1];
+                        it.Dirty = $(this).data('dirty');
+                        it.OriginalSelected = $(this).data('originalSelected');
+                        hijos.push(it);
+                    });
+                    objeto.Children = hijos;
+                    return objeto;
+                }
+                else {
+                    var it = new Object();
+                    it.Selected = isSelect(item);
+                    it.Text = item.parent().find('span').first().html();
+                    it.Value = item.parent().data('id').split('-')[1];
+                    it.Dirty = item.parent().data('dirty');
+                    it.OriginalSelected = item.parent().data('originalSelected');
+                    return it;
+                }
+
+            }
 
             var collapse = function (item, tree) {
                 var children = getChildren(item);
