@@ -5,29 +5,41 @@
             var defaults = {
                 colorInHeader: true,
                 collapsed: true,
-                onFoo: function () { }
-
+                iconCollapsed: 'fa-angle-up',
+                iconUncollapsed: 'fa-angle-down',
+                iconChecked: 'fa-circle',
+                iconUnchecked: 'fa-circle-o',
+                iconMixchecked: 'fa-circle-thin',
             }
+
             var plugin = this;
+
             plugin.settings = {}
-            var $tree = $(element), 
+
+            var $tree = $(element),
                  tree = element; 
+
             plugin.init = function () {
+
                 plugin.originalDataSource = options.dataSource;
                 delete options.dataSource;
                 plugin.settings = $.extend({}, defaults, options);
+
                 $tree.html('');
                 $tree.addClass('tree').addClass('list-group');
+
                 $(plugin.originalDataSource).each(function (index, parent) {
-                    $tree.append("<a class='parent list-group-item' data-id='" + String(parent.Item.Value) + "'><i class='fa fa-angle-up collapsed'/> " + parent.Item.Text + " <span class='badge'></span><i class='fa pull-right check' aria-hidden='true'/></a>");
+                    $tree.append("<a class='parent list-group-item' data-id='" + String(parent.Item.Value) + "'><i class='fa " + plugin.settings.iconCollapsed + " collapsed'/> " + parent.Item.Text + " <span class='badge'></span><i class='fa pull-right check' aria-hidden='true'/></a>");
+
                     var $parentDOM = $tree.children().last();
                     $parentDOM.find('.check').last().on('click', function (e) {
                         selectAll($(this), $tree);
                         if (options.onCheck !== undefined) 
                             options.onCheck(e, getObjectItem($(this)));
                     });
+
                     $parentDOM.on('click', function (e) {
-                        if(!$(e.target).hasClass('check'))
+                        if (!$(e.target).hasClass('check'))
                             collapse($(this).find('.collapsed').last());
                     });
                     var $children = $(parent.Children);
@@ -36,11 +48,11 @@
                         $tree.append("<a class='child list-group-item' data-dirty=false data-parent='" + String(parent.Item.Value) + "' data-id='" + String(parent.Item.Value) + "-" + child.Value + "'><span class='texto'>" + child.Text + "</span><i class='fa pull-right check' aria-hidden='true'></a>");
                         var $childDOM = $tree.children().last();
                         if (child.Selected) {
-                            $childDOM.find('.check').last().addClass('fa-circle');
+                            $childDOM.find('.check').last().addClass(plugin.settings.iconChecked);
                             selectedChildren += 1;
                         }
                         else
-                            $childDOM.find('.check').last().addClass('fa-circle-o');
+                            $childDOM.find('.check').last().addClass(plugin.settings.iconChecked);
 
                         $childDOM.data('originalSelected', child.Selected);
                         $childDOM.find('.check').last().on('click', function (e) {
@@ -53,18 +65,18 @@
                     if (selectedChildren == parent.Children.length) {
                         if (plugin.settings.colorInHeader)
                             $parentDOM.addClass('list-group-item-success');
-                        $parentDOM.find('.check').last().addClass('fa-circle');
+                        $parentDOM.find('.check').last().addClass(plugin.settings.iconChecked);
                     }
                     else
                         if (selectedChildren > 0) {
                             if (plugin.settings.colorInHeader)
                                 $parentDOM.addClass('list-group-item-warning');
-                            $parentDOM.find('.check').last().addClass('fa-circle-thin');
+                            $parentDOM.find('.check').last().addClass(plugin.settings.iconMixchecked);
                         }
                         else {
                             if (plugin.settings.colorInHeader)
                                 $parentDOM.addClass('list-group-item-danger');
-                            $parentDOM.find('.check').last().addClass('fa-circle-o');
+                            $parentDOM.find('.check').last().addClass(plugin.settings.iconUnchecked);
                         }
                     if (parent.Children.length > 0)
                         $parentDOM.find('.badge').html(selectedChildren + " / " + parent.Children.length);
@@ -107,6 +119,7 @@
             plugin.isDirty = function () {
                 return $tree.data('dirty');
             }
+
             // end public methods
 
             // private methods
@@ -234,45 +247,45 @@
 
             //item = $('.collapsed')
             var isCollapsed = function (item) {
-                return item.hasClass('fa-angle-down');
+                return item.hasClass(plugin.settings.iconUncollapsed);
             }
             //item = $('.collapsed')
             var changeCollapsed = function (item) {
-                item.toggleClass('fa-angle-up');
-                item.toggleClass('fa-angle-down');
+                item.toggleClass(plugin.settings.iconCollapsed);
+                item.toggleClass(plugin.settings.iconUncollapsed);
             }
 
             //item = $('.check')
             var isSelect = function (item) {
-                return item.hasClass('fa-circle');
+                return item.hasClass(plugin.settings.iconChecked);
             }
             //item = $('.check')
             var cambiarSeleccion = function (item) {
-                item.toggleClass('fa-circle');
-                item.toggleClass('fa-circle-o');
+                item.toggleClass(plugin.settings.iconChecked);
+                item.toggleClass(plugin.settings.iconUnchecked);
                 item.parent().data('dirty', true);
                 $tree.data('dirty', true);
             }
 
             var check = function (item) {
-                item.addClass('fa-circle');
-                item.removeClass('fa-circle-o');
+                item.addClass(plugin.settings.iconChecked);
+                item.removeClass(plugin.settings.iconUnchecked);
                 item.parent().data('dirty', true);
                 $tree.data('dirty', true);
             }
             //item = $('.check')
             var uncheck = function (item) {
-                item.addClass('fa-circle-o');
-                item.removeClass('fa-circle');
+                item.addClass(plugin.settings.iconUnchecked);
+                item.removeClass(plugin.settings.iconChecked);
                 item.parent().data('dirty', true);
                 $tree.data('dirty', true);
             }
 
             //item = $('.check')
             var checkHeader = function (item) {
-                item.addClass('fa-circle');
-                item.removeClass('fa-circle-o');
-                item.removeClass('fa-circle-thin');
+                item.addClass(plugin.settings.iconChecked);
+                item.removeClass(plugin.settings.iconUnchecked);
+                item.removeClass(plugin.settings.iconMixchecked);
                 var $tree = item.closest('.tree');
                 if (plugin.settings.colorInHeader) {
                     item.parent().addClass('list-group-item-success');
@@ -282,9 +295,9 @@
             }
             //item = $('.check')
             var uncheckHeader = function (item) {
-                item.addClass('fa-circle-o');
-                item.removeClass('fa-circle');
-                item.removeClass('fa-circle-thin');
+                item.addClass(plugin.settings.iconUnchecked);
+                item.removeClass(plugin.settings.iconChecked);
+                item.removeClass(plugin.settings.iconMixchecked);
                 var $tree = item.closest('.tree');
                 if (plugin.settings.colorInHeader) {
                     item.parent().removeClass('list-group-item-success');
@@ -294,9 +307,9 @@
             }
             //item = $('.check')
             var threeStateHeader = function (item) {
-                item.removeClass('fa-circle-o');
-                item.removeClass('fa-circle');
-                item.addClass('fa-circle-thin');
+                item.removeClass(plugin.settings.iconUnchecked);
+                item.removeClass(plugin.settings.iconChecked);
+                item.addClass(plugin.settings.iconMixchecked);
                 var $tree = item.closest('.tree');
                 if (plugin.settings.colorInHeader) {
                     item.parent().removeClass('list-group-item-success');
@@ -311,6 +324,7 @@
         else
             console.error('El plugin necesita el parámetro dataSource.');
     }
+
     $.fn.selectableTree = function (options) {
         return this.each(function () {
             if (undefined == $(this).data('selectableTree')) {
@@ -319,4 +333,5 @@
             }
         });
     }
+
 })(jQuery);
