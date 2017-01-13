@@ -53,9 +53,6 @@
                         if (options.onCheck !== undefined) 
                             options.onCheck(e, getObjectItem($(this)));
                     });
-                    $parentDOM.find('.collapsed').last().on('click', function () {
-                        collapse($(this));
-                    });
                     $parentDOM.on('click', function (e) {
                         if(!$(e.target).hasClass('check'))
                             collapse($(this).find('.collapsed').last());
