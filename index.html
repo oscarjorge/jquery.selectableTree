@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>jquery.selectableTree</title>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/jquery.selectableTree.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/jquery.selectableTree.css">
+</head>
+<body>
+
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <div id="arbol"></div>
+        </div>
+    </div>
+    <script>
+
+        $(document).ready(function () {
+            var json = '[{"Item":{"Disabled":false,"OriginalSelected":false,"Selected":false,"Text":"B�vidos","Value":"01","Dirty":false},"Children":[{"Disabled":false,"OriginalSelected":true,"Selected":true,"Text":"B�vidos","Value":"01","Dirty":false}]},{"Item":{"Disabled":false,"OriginalSelected":false,"Selected":false,"Text":"�quidos","Value":"04","Dirty":false},"Children":[{"Disabled":false,"OriginalSelected":false,"Selected":false,"Text":"Asno","Value":"51","Dirty":false},{"Disabled":false,"OriginalSelected":false,"Selected":false,"Text":"Burd�gano","Value":"50","Dirty":false},{"Disabled":false,"OriginalSelected":false,"Selected":false,"Text":"Caballo","Value":"48","Dirty":false},{"Disabled":false,"OriginalSelected":false,"Selected":false,"Text":"Cebra","Value":"52","Dirty":false},{"Disabled":false,"OriginalSelected":false,"Selected":false,"Text":"Mulo","Value":"49","Dirty":false},{"Disabled":false,"OriginalSelected":false,"Selected":false,"Text":"Onagro","Value":"53","Dirty":false}]},{"Item":{"Disabled":false,"OriginalSelected":false,"Selected":false,"Text":"Peque�os Rumiantes","Value":"03","Dirty":false},"Children":[{"Disabled":false,"OriginalSelected":false,"Selected":false,"Text":"Caprino","Value":"04","Dirty":false},{"Disabled":false,"OriginalSelected":false,"Selected":false,"Text":"Ovino","Value":"03","Dirty":false}]}]'
+            var datos = JSON.parse(json);
+            $('#arbol').selectableTree({
+                colorInHeader: true,
+                collapsed: true,
+                dataSource: datos,
+                onCheck: function (e, item) {
+                }
+            });
+        });
+    </script>
+</body>
+</html>
