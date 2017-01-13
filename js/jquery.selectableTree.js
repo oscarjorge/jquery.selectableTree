@@ -1,7 +1,5 @@
 
 (function ($) {
-
-    // here we go!
     $.selectableTree = function (element, options) {
         if (options != null && options.dataSource != null) {
             var defaults = {
