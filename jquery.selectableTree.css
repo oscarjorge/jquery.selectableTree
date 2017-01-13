@@ -1,0 +1,25 @@
+.tree {
+        list-style-type: none;
+    }
+    .tree .list-group-item {
+        padding:5px;
+    }
+    .tree .list-group-item i{
+        cursor:pointer;
+    }
+    .parent {
+
+    }
+    .parent:before {
+        /*font-family: FontAwesome;
+        content: "\f095";*/
+    }
+    .child span {
+        padding-left:2em;
+    }
+.selected {
+    background-color:green;
+}
+.unselected {
+    background-color:red;
+}
