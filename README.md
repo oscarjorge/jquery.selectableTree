@@ -1,5 +1,5 @@
 # jquery.selectableTree
-jquery.selectabletree es un plugin de JQuery, fácilmente configurable, que despliega una serie de opciones opciones agrupadas que permiten seleccionar o no seleccionar los items desplegados. Trabaja con incono de fontawesome.
+jquery.selectabletree es un plugin de JQuery, fácilmente configurable, que despliega una serie de opciones opciones agrupadas que permiten seleccionar o no seleccionar los items desplegados. Trabaja con iconos de fontawesome.
 
 ##Parámetros
 
@@ -48,13 +48,16 @@ Es disparado cuando un elemento es seleccionado o cuando un elemento se deselecc
 ```
 ## Instanciar el plugin
 ```html
+//Fuente de datos del arbol
 var json = '[{"Item":{"Disabled":false,"OriginalSelected":false,"Selected":false,"Text":"B�vidos","Value":"01","Dirty":false},"Children":[{"Disabled":false,"OriginalSelected":true,"Selected":true,"Text":"B�vidos","Value":"01","Dirty":false}]},{"Item":{"Disabled":false,"OriginalSelected":false,"Selected":false,"Text":"�quidos","Value":"04","Dirty":false},"Children":[{"Disabled":false,"OriginalSelected":false,"Selected":false,"Text":"Asno","Value":"51","Dirty":false},{"Disabled":false,"OriginalSelected":false,"Selected":false,"Text":"Burd�gano","Value":"50","Dirty":false},{"Disabled":false,"OriginalSelected":false,"Selected":false,"Text":"Caballo","Value":"48","Dirty":false},{"Disabled":false,"OriginalSelected":false,"Selected":false,"Text":"Cebra","Value":"52","Dirty":false},{"Disabled":false,"OriginalSelected":false,"Selected":false,"Text":"Mulo","Value":"49","Dirty":false},{"Disabled":false,"OriginalSelected":false,"Selected":false,"Text":"Onagro","Value":"53","Dirty":false}]},{"Item":{"Disabled":false,"OriginalSelected":false,"Selected":false,"Text":"Peque�os Rumiantes","Value":"03","Dirty":false},"Children":[{"Disabled":false,"OriginalSelected":false,"Selected":false,"Text":"Caprino","Value":"04","Dirty":false},{"Disabled":false,"OriginalSelected":false,"Selected":false,"Text":"Ovino","Value":"03","Dirty":false}]}]'
-            var datos = JSON.parse(json);
-            $('#arbol').selectableTree({
-                colorInHeader: true,
-                collapsed: true,
-                dataSource: datos,
-                onCheck: function (e, item) {
-                }
-            });
+//Convertimos el array a un objeto JSON
+var datos = JSON.parse(json);
+//Instanciamos el plugin y nos subscribimos al evento onChange
+$('#arbol').selectableTree({
+    colorInHeader: true,
+    collapsed: true,
+    dataSource: datos,
+    onCheck: function (e, item) {
+    }
+});
 ```
