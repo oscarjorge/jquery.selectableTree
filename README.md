@@ -1,6 +1,11 @@
 # JQuery Selectable Tree
 jquery.selectabletree es un plugin de JQuery, fácilmente configurable, que despliega una serie de opciones opciones agrupadas que permiten seleccionar o no seleccionar los items desplegados. Trabaja con iconos de fontawesome.
 
+![Texto alternativo](https://github.com/oscarjorge/jquery.selectableTree/blob/master/src/JQuery.selectableTree.JPG)
+
+
+Puedes ver una desmostración del plugin [aquí](http://htmlpreview.github.io/?https://github.com/oscarjorge/jquery.selectableTree/blob/master/index.html)
+
 ##Parámetros
 
 ### Parámetros obligatorios:
