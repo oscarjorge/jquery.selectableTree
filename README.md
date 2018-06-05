@@ -6,7 +6,7 @@ jquery.selectabletree es un plugin de JQuery, fácilmente configurable, que desp
 
 Puedes ver una desmostración del plugin [aquí](http://htmlpreview.github.io/?https://github.com/oscarjorge/jquery.selectableTree/blob/master/index.html)
 
-##Parámetros
+## Parámetros
 
 ### Parámetros obligatorios:
 #### dataSource: 
